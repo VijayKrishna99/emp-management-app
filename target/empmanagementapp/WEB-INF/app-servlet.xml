@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+ 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+ 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	
+	<mvc:annotation-driven/>
+	<context:component-scan base-package="web.empmanagementapp.Controller"/>
+	<context:component-scan base-package="web.empmanagementapp.Modal."/>
+	<context:component-scan base-package="web.empmanagementapp.dao"/>
+	<context:annotation-config/>
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	  <property name="useDefaultSuffixPattern" value="false"/>
+	</bean>
+<!-- 	<bean name="/Custom" class="web.springframework.Controller.CustomController"/> -->
+<!-- 	<bean name="/hello" class="web.springframework.Controller.AbsController"> -->
+<!-- 	   <property name="supportedMethods" value="POST"/> -->
+<!-- 	</bean> -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/Views/</value>
+		</property>
+
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+<!-- 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"> -->
+<!-- 		<property name="basename" value="/WEB-INF/messages"></property> -->
+<!-- 	</bean> -->
+	
+	  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+       <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+       <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+       <property name="username" value="system"/>
+       <property name="password" value="admin"/>
+    </bean>
+    
+   
+      
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+       <property name="dataSource" ref="dataSource"/>
+		<property name="annotatedClasses">
+			<list>
+				<value>web.empmanagementapp.Model.Employee</value>
+			</list>
+		</property>
+       <property name="hibernateProperties">
+         <props>
+            <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+            <prop key="hibernate.hbm2ddl.auto">update</prop>
+            <prop key="hibernate.show_sql">true</prop>
+         </props>
+       </property>
+    </bean>
+</beans>
+	
